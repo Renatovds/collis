@@ -1,5 +1,4 @@
 import { Router } from 'express';
-
 import ForgotPasswordEmailController from '../controllers/ForgotPasswordEmailController';
 import ResetPasswordController from '../controllers/ResetPasswordController';
 

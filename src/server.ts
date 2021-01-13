@@ -31,4 +31,9 @@ createConnection('default').then(() => {
   updateCachePlans.execute();
 }).catch((err) => console.log(err));
 
+function update() {
+  const updateCachePlans = container.resolve(UpdateCachePlans);
+  updateCachePlans.execute();
+}
+
 app.listen(3333, () => console.log('servidor iniciado na porta 3333'));

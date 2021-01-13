@@ -34,9 +34,9 @@ class UpdateCachePlans {
 
     allPlans.data.planos.forEach((plan) => {
       this.cacheProvider.invalidate(`plans:${plan.nome}`);
-
       this.cacheProvider.save(`plans:${plan.nome}`, plan);
     });
+
     console.log('Concluido update do cache de Planos');
   }
 }

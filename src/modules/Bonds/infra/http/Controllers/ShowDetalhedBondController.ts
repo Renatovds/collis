@@ -6,7 +6,6 @@ class BondsController {
   public async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.user;
     const { bond } = request.params;
-    console.log(bond);
     const showOneUserBond = container.resolve(ShowOneUserBondService);
     const userBond = await showOneUserBond.execute(bond, id);
 
