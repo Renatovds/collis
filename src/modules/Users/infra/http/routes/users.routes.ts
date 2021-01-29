@@ -7,6 +7,7 @@ const usersRouter = Router();
 const usersController = new UsersController();
 
 usersRouter.post('/', usersController.create);
+usersRouter.get('/email', usersController.showEmail);
 usersRouter.put('/update', authenticationMiddleware, usersController.update);
 
 export default usersRouter;

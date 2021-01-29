@@ -13,8 +13,8 @@ class ShowUserService {
 
   }
 
-  public async execute(id:string):Promise<User> {
-    const user = await this.usersRepository.findById(id);
+  public async execute(cpfCnpj:string):Promise<User> {
+    const user = await this.usersRepository.findByCPFCNPJ(cpfCnpj);
     if (!user) {
       throw new AppError('User not found.', 404);
     }

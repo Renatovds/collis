@@ -2,8 +2,9 @@ import { Response, Request } from 'express';
 import { container } from 'tsyringe';
 
 import CreateUserService from '@modules/Users/services/CreateUserService';
-import ShowUserService from '@modules/Users/services/ShowUserService';
+import SearchByCPFCNPJService from '@modules/Users/services/SearchByCPFCNPJService';
 import UpdateUserProfileService from '@modules/Users/services/UpdateUserProfileService';
+import AppError from '@shared/errors/AppError';
 
 class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -17,14 +18,18 @@ class UsersController {
     return response.status(200).json(user);
   }
 
-  public async show(request: Request, response: Response): Promise<Response> {
-    const { id } = request.user;
+  public async showEmail(request: Request, response: Response): Promise<Response> {
+    const { cpfCnpj } = request.query;
 
-    const showUserBondsService = container.resolve(ShowUserService);
+    if (!cpfCnpj) {
+      throw new AppError('CPF/CNPJ was not provided');
+    }
 
-    const user = await showUserBondsService.execute(id);
+    const searchByCPFCNPJ = container.resolve(SearchByCPFCNPJService);
 
-    return response.status(200).json(user);
+    const user = await searchByCPFCNPJ.execute(cpfCnpj.toString());
+    const { email } = user;
+    return response.status(200).json(email);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {

@@ -27,21 +27,21 @@ class ResetPasswordService {
     password_confirmation,
   }: IRequest): Promise<void> {
     if (password !== password_confirmation) {
-      throw new AppError('Password and password_confirmation does not match.');
+      throw new AppError('Password and password_confirmation does not match.', 400);
     }
     const userToken = await this.usersTokensRepository.findByToken(token);
     if (!userToken) {
-      throw new AppError('User token does not exist');
+      throw new AppError('User token does not exist', 401);
     }
     const tokenCreatedAtDate = addHours(userToken.created_at, 2);
 
     if (isAfter(Date.now(), tokenCreatedAtDate)) {
-      throw new AppError('Token is expired');
+      throw new AppError('Token is expired', 401);
     }
     const user = await this.usersRepository.findById(userToken.user_id);
 
     if (!user) {
-      throw new AppError('User does not exist');
+      throw new AppError('User does not exist', 404);
     }
 
     user.password = await this.hashProvider.hashGenerate(password);

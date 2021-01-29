@@ -42,7 +42,7 @@ class CreateUserService {
     const existUser = await this.userRepository.findByCPFCNPJ(cpf_cnpj);
 
     if (existUser) {
-      throw new AppError('User already exist.');
+      throw new AppError('User already exist.', 400);
     }
 
     const clients = await api.get<IClientes>('/cliente/listAll');
@@ -52,7 +52,7 @@ class CreateUserService {
     );
 
     if (!existUserApi) {
-      throw new AppError('Você ainda não é um cliente Collis.');
+      throw new AppError('Você ainda não é um cliente Collis.', 404);
     }
 
     const response = await api.get<IClientAPIResponse>(`cliente/list/${existUserApi.login}`);

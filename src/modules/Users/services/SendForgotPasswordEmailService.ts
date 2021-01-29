@@ -24,7 +24,7 @@ class SendForgotPasswordEmailService {
     const user = await this.usersRepository.findByEmail(data.email);
 
     if (!user) {
-      throw new AppError('User does not exist');
+      throw new AppError('User does not exist', 404);
     }
     const forgotPasswordTemplate = path.resolve(
       __dirname,
@@ -38,12 +38,12 @@ class SendForgotPasswordEmailService {
         name: user.name,
         email: user.email,
       },
-      subject: '[Collis] Recuperação de senha',
+      subject: '[Collis Telecomunicações] Recuperação de senha',
       templateData: {
         file: forgotPasswordTemplate,
         variables: {
           name: user.name,
-          link: `${process.env.APP_WEB_URL}/reset-password?token=${token}`,
+          link: `${process.env.APP_WEB_URL}/?token=${token}`,
         },
       },
     });
