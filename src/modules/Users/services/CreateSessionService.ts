@@ -1,6 +1,7 @@
 import { sign } from 'jsonwebtoken';
 
 import { inject, injectable } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 import User from '../infra/typeorm/entities/User';
 import AppError from '../../../shared/errors/AppError';
@@ -33,7 +34,7 @@ class CreateSessionService {
     const { secret, expiresIn } = authConfig.JWT;
     const token = sign({}, secret, { subject: user.id, expiresIn });
 
-    return { user, token };
+    return { user: classToClass(user), token };
   }
 }
 

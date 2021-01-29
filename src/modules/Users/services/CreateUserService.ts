@@ -1,5 +1,6 @@
 import UpdateUserBondsService from '@modules/Bonds/services/UpdateUserBondsCache';
 import { container, inject, injectable } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 import User from '../infra/typeorm/entities/User';
 import api from '../../../shared/infra/services/API';
@@ -73,7 +74,7 @@ class CreateUserService {
     await this.userRepository.save(user);
     await updateUserBonds.execute(cpf_cnpj);
 
-    return user;
+    return classToClass(user);
   }
 }
 

@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { createConnection } from 'typeorm';
 import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';

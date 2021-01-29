@@ -12,19 +12,18 @@ class EtherealMailProvider implements IMailProvider {
     @inject('MailTemplateProvider')
     private templateProvider: IMailTemplateProvider,
   ) {
-    nodemailer.createTestAccount().then((account) => {
-      const transporter = nodemailer.createTransport({
-        host: account.smtp.host,
-        port: account.smtp.port,
-        secure: account.smtp.secure,
-        auth: {
-          user: account.user,
-          pass: account.pass,
-        },
+    const transporter = nodemailer.createTransport({
+      host: process.env.LOCAWEB_HOST_SMTP,
+      port: process.env.LOCAWEB_PORT,
+      secure: false,
 
-      });
-      this.client = transporter;
+      auth: {
+        user: process.env.LOCAWEB_ACCESS_KEY_ID,
+        pass: process.env.LOCAWEB_SECRET_ACCESS_KEY,
+      },
+
     });
+    this.client = transporter;
   }
 
   public async sendMail({
@@ -36,7 +35,7 @@ class EtherealMailProvider implements IMailProvider {
     const message = await this.client.sendMail({
       from: {
         name: from?.name || 'Equipe Collis',
-        address: from?.email || 'equipe@collis.com.br',
+        address: from?.email || 'contato@collisinternet.com.br',
       },
       to: {
         name: to.name,

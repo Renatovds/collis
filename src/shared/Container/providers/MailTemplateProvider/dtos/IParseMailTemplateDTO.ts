@@ -1,7 +1,8 @@
 interface IVarialblesTemplate {
   [key: string]: string | number;
 }
-export default interface IParseMailTemplateDTO {
+ interface IParseMailTemplateDTO {
   file: string;
   variables: IVarialblesTemplate;
 }
+export default IParseMailTemplateDTO;

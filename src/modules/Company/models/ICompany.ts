@@ -1,10 +1,10 @@
  interface ICompany {
-  nome: string;
-  cnpj:string;
-  endereco:string;
-  bairro:string;
-  cidade:string;
-  estado:string;
+  nome?: string;
+  cnpj?:string;
+  endereco?:string;
+  bairro?:string;
+  cidade?:string;
+  estado?:string;
   cep?:string;
   telefones:{
     telefone1?:string;

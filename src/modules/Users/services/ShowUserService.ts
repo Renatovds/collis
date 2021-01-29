@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 import IUserRepository from '@modules/Users/repositories/IUsersRepository';
 import AppError from '@shared/errors/AppError';
 import api from '@shared/infra/services/API/index';
@@ -18,7 +19,7 @@ class ShowUserService {
     if (!user) {
       throw new AppError('User not found.', 400);
     }
-    return user;
+    return classToClass(user);
   }
 }
 

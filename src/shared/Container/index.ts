@@ -7,7 +7,7 @@ import IMailTemplateProvider from './providers/MailTemplateProvider/models/IMail
 import HandleBarsMailTemplateProvider from './providers/MailTemplateProvider/implementations/HandleBarsMailTemplateProvider';
 import IMailProvider from './providers/MailProvider/models/IMailProvider';
 import EtherealMailProvider from './providers/MailProvider/implementations/EtherealMailProvider';
-// import SESMailProvider from './providers/MailProvider/implementations/SESMailProvider';
+import LocaWebMailProvider from './providers/MailProvider/implementations/LocaWebMailProvider';
 
 container.registerSingleton<ICacheProvider>('CacheProvider', RedisCacheProvider);
 container.registerSingleton<IMailTemplateProvider>(
@@ -18,5 +18,5 @@ container.registerInstance<IMailProvider>(
   'MailProvider',
   mailConfig.driver === 'ethereal'
     ? container.resolve(EtherealMailProvider)
-    : container.resolve('SESMailProvider'),
+    : container.resolve(LocaWebMailProvider),
 );

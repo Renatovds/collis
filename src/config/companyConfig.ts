@@ -1,17 +1,19 @@
-import ICompany from '@modules/company/models/ICompany';
+import ICompany from '@modules/Company/models/ICompany';
 
 export default {
-
-  nome: 'Collis Telecomunicações',
-  cnpj: '33.557.238/0001-71',
-  endereco: 'Rua Teodosio de Matos, 33',
-  bairro: 'Jardim Santa Josefina',
-  cidade: 'São Paulo',
-  estado: 'SP',
-  cep: '05819-100',
-  telefones: { telefone1: '(11)4200-1227' },
-  whatsapp: '(11)4200-1227',
-  emails: { email1: 'contato@collisinternet.com.br' },
-  site: 'www.collisinternet.com.br',
+  nome: process.env.COMPANY_NAME,
+  cnpj: process.env.COMPANY_CNPJ,
+  endereco: process.env.COMPANY_ADDRESS,
+  bairro: process.env.COMPANY_DISTRICT,
+  cidade: process.env.COMPANY_CITY,
+  estado: process.env.COMPANY_STATE,
+  cep: process.env.COMPANY_ZIPCODE,
+  telefones:
+   { telefone1: process.env.COMPANY_PHONE_1, telefone2: process.env.COMPANY_PHONE_2 },
+  whatsapp: process.env.COMPANY_WHATSAPP,
+  facebook: process.env.COMPANY_FACEBOOK,
+  instagram: process.env.COMPANY_INSTAGRAM,
+  emails: { email1: process.env.COMPANY_EMAIL_1, email2: process.env.COMPANY_EMAIL_2 },
+  site: process.env.COMPANY_SITE,
 
 } as ICompany;
