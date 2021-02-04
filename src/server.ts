@@ -1,3 +1,5 @@
+import path from 'path';
+import dotenv from 'dotenv';
 import 'dotenv/config';
 import { createConnection } from 'typeorm';
 import cors from 'cors';
@@ -11,6 +13,8 @@ import AppError from './shared/errors/AppError';
 import '@shared/Container/index';
 import UpdateCacheService from './modules/Bonds/services/UpdateCacheService';
 
+// dotenv.config({ path: path.join('..', '.env') });
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -21,7 +25,6 @@ app.use(
       response.status(err.statusCode).json(err.message);
     }
 
-    console.log(err);
     response.status(500).json('Internal Server Error');
   },
 );
@@ -31,10 +34,5 @@ createConnection('default').then(() => {
   updateCacheService.execute();
   updateCachePlans.execute();
 }).catch((err) => console.log(err));
-
-function update() {
-  const updateCachePlans = container.resolve(UpdateCachePlans);
-  updateCachePlans.execute();
-}
 
 app.listen(3333, () => console.log('servidor iniciado na porta 3333'));

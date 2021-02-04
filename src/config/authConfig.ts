@@ -1,6 +1,6 @@
 export default {
   JWT: {
-    secret: 'goiabada',
+    secret: process.env.APP_SECRET = 'senha',
     expiresIn: '1d',
   },
 };
