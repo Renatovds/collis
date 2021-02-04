@@ -2,13 +2,13 @@
 
 name: CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
- 
- 
+
+
 jobs:
   # This workflow contains a single job called "build"
   build:
@@ -19,12 +19,12 @@ jobs:
     steps:
 
       - uses: actions/checkout@v2
-        
+
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.4
-        with: 
+        with:
           node-version: 12.x
-          
+
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -36,14 +36,14 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-        
+
       - name: Install dependencies
         run: yarn
-       
-       
+
+
       - name: Run build
         run: yarn build
-          
+
       - name: Copy files to Digital Ocean
         uses: appleboy/scp-action@master
         with:
@@ -53,8 +53,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           source: ".,!node_modules"
           target: "~/app/collis"
-          
-      - name: Install dependencies
+
+      - name: Run Deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -65,9 +65,9 @@ jobs:
             cd ~/app/collis
             yarn
             ./node_modules/.bin/typeorm migration:run
-            pm2 restart backend   
-            
+            pm2 restart backend
 
-        
-          
-        
+
+
+
+
