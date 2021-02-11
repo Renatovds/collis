@@ -34,7 +34,16 @@ createConnection('default').then(() => {
   const updateCachePlans = container.resolve(UpdateCachePlans);
   updateCacheService.execute();
   updateCachePlans.execute();
-}).catch((err) => console.log(err));
+}).catch((err) => {
+  console.log(err);
+  const sendErrorMail = container.resolve(SendErrorMail);
+  sendErrorMail.execute({
+    AdminName: process.env.ADMIN_SERVER_NAME,
+    adminEmail: process.env.ADMIN_SERVER_EMAIL,
+    serverName: process.env.SERVER_NAME,
+    error: err,
+  });
+});
 
 // Intervalo de Atualização do Servidor
 setInterval(() => {
@@ -56,6 +65,6 @@ setInterval(() => {
       });
     }
   }
-}, 60000);
+}, 600000);
 
 app.listen(3333, () => console.log('servidor iniciado na porta 3333'));
