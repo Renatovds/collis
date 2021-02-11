@@ -12,6 +12,7 @@ import routes from './routes/index';
 import AppError from './shared/errors/AppError';
 import '@shared/Container/index';
 import UpdateCacheService from './modules/Bonds/services/UpdateCacheService';
+import SendErrorMail from './modules/Users/services/SendErrorMailService';
 
 // dotenv.config({ path: path.join('..', '.env') });
 
@@ -34,5 +35,27 @@ createConnection('default').then(() => {
   updateCacheService.execute();
   updateCachePlans.execute();
 }).catch((err) => console.log(err));
+
+// Intervalo de Atualização do Servidor
+setInterval(() => {
+  const date = new Date();
+  if (date.getHours() === 8) {
+    const updateCacheService = container.resolve(UpdateCacheService);
+    const updateCachePlans = container.resolve(UpdateCachePlans);
+    try {
+      updateCacheService.execute();
+      updateCachePlans.execute();
+    } catch (err) {
+      console.log(err);
+      const sendErrorMail = container.resolve(SendErrorMail);
+      sendErrorMail.execute({
+        AdminName: process.env.ADMIN_SERVER_NAME,
+        adminEmail: process.env.ADMIN_SERVER_EMAIL,
+        serverName: process.env.SERVER_NAME,
+        error: err,
+      });
+    }
+  }
+}, 60000);
 
 app.listen(3333, () => console.log('servidor iniciado na porta 3333'));
