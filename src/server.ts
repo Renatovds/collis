@@ -12,18 +12,20 @@ import routes from './routes/index';
 import AppError from './shared/errors/AppError';
 import '@shared/Container/index';
 import UpdateCacheService from './modules/Bonds/services/UpdateCacheService';
+import rateLimiter from './shared/infra/middlewares/RateLimiter';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(rateLimiter);
 app.use(routes);
 app.use(
   (err: Error, request: Request, response: Response, next: NextFunction) => {
     if (err instanceof AppError) {
       response.status(err.statusCode).json(err.message);
+    } else {
+      response.status(500).json('Internal Server Error');
     }
-
-    response.status(500).json('Internal Server Error');
   },
 );
 
