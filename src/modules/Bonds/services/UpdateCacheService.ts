@@ -2,6 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import ICacheProvider from '@shared/Container/providers/models/ICacheProvider';
 
 import IUserRepository from '@modules/Users/repositories/IUsersRepository';
+import ServerError from '@shared/errors/ServerError';
 import api from '../../../shared/infra/services/API';
 
 import Bond from '../models/Bond';
@@ -33,7 +34,12 @@ class UpdateCacheService {
 
     console.log(cpfCnpjUsers);
 
-    const allBonds = await api.get<IBondsProps>('/titulo/listAll');
+    const allBonds = await api.get<IBondsProps>('/titulo/listAll')
+      .catch((err) => {
+        throw new ServerError(
+          `Erro ao efetuar update do cache de Titulos  - ${err}`,
+        ).sendMail();
+      });
     if (!allBonds) {
       throw new AppError('No data bonds from api.', 500);
     }

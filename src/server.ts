@@ -1,20 +1,17 @@
+import 'reflect-metadata';
 import path from 'path';
 import dotenv from 'dotenv';
 import 'dotenv/config';
-import { createConnection } from 'typeorm';
 import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import { container } from 'tsyringe';
+import connection from '@shared/infra/database/index';
 import UpdateCachePlans from '@shared/infra/services/UpdateCachePlans';
 import routes from './routes/index';
-
 import AppError from './shared/errors/AppError';
 import '@shared/Container/index';
 import UpdateCacheService from './modules/Bonds/services/UpdateCacheService';
-import SendErrorMail from './modules/Users/services/SendErrorMailService';
-
-// dotenv.config({ path: path.join('..', '.env') });
 
 const app = express();
 app.use(cors());
@@ -29,41 +26,18 @@ app.use(
     response.status(500).json('Internal Server Error');
   },
 );
-createConnection('default').then(() => {
-  const updateCacheService = container.resolve(UpdateCacheService);
-  const updateCachePlans = container.resolve(UpdateCachePlans);
-  updateCacheService.execute();
-  updateCachePlans.execute();
-}).catch((err) => {
-  console.log(err);
-  const sendErrorMail = container.resolve(SendErrorMail);
-  sendErrorMail.execute({
-    AdminName: process.env.ADMIN_SERVER_NAME,
-    adminEmail: process.env.ADMIN_SERVER_EMAIL,
-    serverName: process.env.SERVER_NAME,
-    error: err,
-  });
-});
+
+connection();
 
 // Intervalo de Atualização do Servidor
 setInterval(() => {
   const date = new Date();
-  if (date.getHours() === 8) {
+
+  if (date.getHours() === 1) {
     const updateCacheService = container.resolve(UpdateCacheService);
     const updateCachePlans = container.resolve(UpdateCachePlans);
-    try {
-      updateCacheService.execute();
-      updateCachePlans.execute();
-    } catch (err) {
-      console.log(err);
-      const sendErrorMail = container.resolve(SendErrorMail);
-      sendErrorMail.execute({
-        AdminName: process.env.ADMIN_SERVER_NAME,
-        adminEmail: process.env.ADMIN_SERVER_EMAIL,
-        serverName: process.env.SERVER_NAME,
-        error: err,
-      });
-    }
+    updateCacheService.execute();
+    updateCachePlans.execute();
   }
 }, 600000);
 
