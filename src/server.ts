@@ -35,7 +35,7 @@ connection();
 setInterval(() => {
   const date = new Date();
 
-  if (date.getHours() === 1) {
+  if (date.getHours() === 8) {
     const updateCacheService = container.resolve(UpdateCacheService);
     const updateCachePlans = container.resolve(UpdateCachePlans);
     updateCacheService.execute();
