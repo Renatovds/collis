@@ -1,2 +1,2 @@
 # Collis
-Backend for Collis application
+Backend for Collis Internet application
