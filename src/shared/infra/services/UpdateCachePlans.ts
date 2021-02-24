@@ -26,7 +26,7 @@ class UpdateCachePlans {
   }
 
   public async execute():Promise<void> {
-    console.log(`Iniciando update do cache de Planos - ${new Date().toISOString}`);
+    console.log(`Iniciando update do cache de Planos - ${new Date().toISOString()}`);
 
     const allPlans = await api.get<IPlansProps>('/plano/listAll').catch((err) => {
       throw new ServerError(
@@ -43,7 +43,7 @@ class UpdateCachePlans {
       this.cacheProvider.save(`plans:${plan.nome}`, plan);
     });
 
-    console.log(`Concluido update do cache de Planos - ${new Date().toISOString}`);
+    console.log(`Concluido update do cache de Planos - ${new Date().toISOString()}`);
   }
 }
 
