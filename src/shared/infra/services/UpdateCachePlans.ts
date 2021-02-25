@@ -43,7 +43,7 @@ class UpdateCachePlans {
       this.cacheProvider.save(`plans:${plan.nome}`, plan);
     });
 
-    console.log(`Concluido update do cache de Planos - ${new Date().toLocaleDateString()}`);
+    console.log(`Concluido update do cache de Planos - ${new Date().toTimeString()}`);
   }
 }
 

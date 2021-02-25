@@ -53,7 +53,7 @@ class UpdateCacheService {
 
       this.cacheProvider.save(`bonds:${cpfCnpj}`, listBonds);
     });
-    console.log(`Concluido update do cache de Titulos - ${new Date().toLocaleDateString()}`);
+    console.log(`Concluido update do cache de Titulos - ${new Date().toTimeString()}`);
   }
 }
 
