@@ -41,6 +41,6 @@ setInterval(() => {
     updateCacheService.execute();
     updateCachePlans.execute();
   }
-}, 600000);
+}, 1800000);
 
 app.listen(3333, () => console.log('servidor iniciado na porta 3333'));

@@ -24,7 +24,7 @@ class UpdateCacheService {
   }
 
   public async execute():Promise<void> {
-    console.log(`Iniciando update do cache de Titulos - ${new Date().toISOString()}`);
+    console.log(`Iniciando update do cache de Titulos - ${new Date().toLocaleDateString()}`);
     const users = await this.userRepository.findAllUsers();
 
     if (!users) {
@@ -53,7 +53,7 @@ class UpdateCacheService {
 
       this.cacheProvider.save(`bonds:${cpfCnpj}`, listBonds);
     });
-    console.log(`Concluido update do cache de Titulos - ${new Date().toISOString()}`);
+    console.log(`Concluido update do cache de Titulos - ${new Date().toLocaleDateString()}`);
   }
 }
 
