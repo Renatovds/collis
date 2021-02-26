@@ -42,7 +42,7 @@ class CreateUserService {
     const existUser = await this.userRepository.findByCPFCNPJ(cpf_cnpj);
 
     if (existUser) {
-      throw new AppError('User already exist.', 400);
+      throw new AppError('CPF/CNPJ já cadastrado.', 400);
     }
 
     const clients = await api.get<IClientes>('/cliente/listAll');
