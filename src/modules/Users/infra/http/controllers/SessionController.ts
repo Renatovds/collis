@@ -13,8 +13,8 @@ class SessionController {
 
     const createSessionService = container.resolve(CreateSessionService);
     const data = await createSessionService.execute(cpf_cnpj, password);
-    const updateService = container.resolve(UpdateUserDataServerSide);
-    updateService.execute({ user_id: data.user.id });
+    const updateUserService = container.resolve(UpdateUserDataServerSide);
+    await updateUserService.execute({ user_id: data.user.id });
 
     return response.status(200).json(data);
   }
